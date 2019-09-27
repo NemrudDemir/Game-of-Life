@@ -1,51 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GameOfLifeModel
+﻿namespace GameOfLifeModel
 {
     public class Cell
     {
-        private bool isAlive;
-        public bool IsAlive {
-            get {
-                return isAlive;
-            }
-        }
+        public bool IsAlive { get; private set; }
 
-        public int NeighboursCount {
-            get; set;
-        }
+        public int NeighborsCount { get; set; }
 
-        public int X {
-            get; set;
-        }
+        public int X { get; }
 
-        public int Y {
-            get; set;
-        }
+        public int Y { get; }
 
-        private int FieldSize {
-            get;
-        }
+        private int FieldSize { get; }
 
-        public Cell(Point point, int fieldSize, bool isAlive, int neighboursCount = 0) : this(point.X, point.Y, fieldSize, isAlive, neighboursCount) {}
+        public Cell(Point point, int fieldSize, bool isAlive, int neighborsCount = 0) : this(point.X, point.Y, fieldSize, isAlive, neighborsCount) {}
 
-        public Cell(int x, int y, int fieldSize, bool isAlive, int neighboursCount = 0)
+        public Cell(int x, int y, int fieldSize, bool isAlive, int neighborsCount = 0)
         {
             X = x;
             Y = y;
             FieldSize = fieldSize;
-            this.isAlive = isAlive;
-            NeighboursCount = neighboursCount;
+            this.IsAlive = isAlive;
+            NeighborsCount = neighborsCount;
         }
 
         public void UpdateAliveStatus(Rule rule)
         {
-            this.isAlive = rule.WillCellBeAlive(IsAlive, NeighboursCount);
-            NeighboursCount = 0;
+            this.IsAlive = rule.WillCellBeAlive(IsAlive, NeighborsCount);
+            NeighborsCount = 0;
         }
 
         public override int GetHashCode()
@@ -54,7 +35,7 @@ namespace GameOfLifeModel
         }
 
         public override bool Equals(object obj) {
-            return this.GetHashCode() == obj.GetHashCode();
+            return obj != null && GetHashCode() == obj.GetHashCode();
         }
     }
 }

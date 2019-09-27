@@ -1,19 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GameOfLifeModel
+﻿namespace GameOfLifeModel
 {
     public class Point
     {
         public int X {
-            get; set;
+            get; 
         }
 
         public int Y {
-            get; set;
+            get; 
         }
 
         public Point(int x, int y)

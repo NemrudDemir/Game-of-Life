@@ -1,37 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 
 namespace WpfGameOfLife
 {
-    class HiResTimer
+    internal class HiResTimer
     {
-        Stopwatch stopwatch;
+        private Stopwatch Stopwatch { get; }
+        public long ElapsedMilliseconds => Stopwatch.ElapsedMilliseconds;
 
         public HiResTimer()
         {
-            stopwatch = new Stopwatch();
-            stopwatch.Reset();
-        }
-
-        public long ElapsedMilliseconds {
-            get { return stopwatch.ElapsedMilliseconds; }
+            Stopwatch = new Stopwatch();
+            Stopwatch.Reset();
         }
 
         public void Start()
         {
-            if (!stopwatch.IsRunning) {
-                stopwatch.Reset();
-                stopwatch.Start();
-            }
+            if (Stopwatch.IsRunning)
+                return;
+            Stopwatch.Reset();
+            Stopwatch.Start();
         }
 
         public void Stop()
         {
-            stopwatch.Stop();
+            Stopwatch.Stop();
         }
     }
 }

@@ -1,54 +1,41 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 using GameOfLifeModel;
 
 namespace WpfGameOfLife
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
-        BackgroundWorker worker = new BackgroundWorker();
+        private BackgroundWorker Worker { get; } = new BackgroundWorker(); //TODO change to async
 
-        bool isStarted;
+        bool _isStarted;
         private bool IsStarted {
-            get {
-                return isStarted;
-            }
+            get => _isStarted;
             set {
-                isStarted = value;
+                _isStarted = value;
                 //Update buttons
-                cmdStart.IsEnabled = cmdNext.IsEnabled = !isStarted;
-                cmdStop.IsEnabled = isStarted;
-                if (isStarted) {
+                cmdStart.IsEnabled = cmdNext.IsEnabled = !_isStarted;
+                cmdStop.IsEnabled = _isStarted;
+                if (_isStarted) {
                     cmdStop.Focus();
-                    worker.RunWorkerAsync();
+                    Worker.RunWorkerAsync();
                 } else
                     cmdStart.Focus();
             }
         }
-        private double AutoInterval;
-        private GameOfLife CurrentGame;
+        private double AutoInterval { get; set; }
+        private GameOfLife CurrentGame { get; set; }
 
         public MainWindow()
         {
             InitializeComponent();
-            worker.DoWork += Worker_DoWork;
+            Worker.DoWork += Worker_DoWork;
         }
 
         protected override void OnContentRendered(EventArgs e)
@@ -60,12 +47,12 @@ namespace WpfGameOfLife
 
         private void Worker_DoWork(object sender, DoWorkEventArgs e)
         {
-            HiResTimer timer = new HiResTimer();
+            var timer = new HiResTimer();
             timer.Start();
             while (IsStarted) {
                 var startTime = timer.ElapsedMilliseconds;
                 NextGeneration();
-                while (timer.ElapsedMilliseconds - startTime < AutoInterval) ;
+                while (timer.ElapsedMilliseconds - startTime < AutoInterval) { }
             }
         }
         
@@ -77,7 +64,7 @@ namespace WpfGameOfLife
         public void NewGame()
         {
             IsStarted = false;
-            CurrentGame = new GameOfLife(Convert.ToInt32(txtFieldsize.Text), txtRule.Text);
+            CurrentGame = new GameOfLife(Convert.ToInt32(txtFieldSize.Text), txtRule.Text);
             UpdateImageComponent();
         }
         
@@ -99,10 +86,12 @@ namespace WpfGameOfLife
                 var startTime = frameTimer.ElapsedMilliseconds;
                 RenderCells();
                 UpdateStatistic();
-                Application.Current.Dispatcher.Invoke(DispatcherPriority.Background,
-                                          new Action(delegate { }));
-                //while (frameTimer.ElapsedMilliseconds - startTime < 50) ;
-                this.Title = string.Format("Frames: {0}", frameTimer.ElapsedMilliseconds == startTime ? "" : (1000 / (frameTimer.ElapsedMilliseconds - startTime)).ToString());
+                if (Application.Current.Dispatcher != null)
+                    Application.Current.Dispatcher.Invoke(DispatcherPriority.Background,
+                        new Action(delegate { }));
+                var elapsed = frameTimer.ElapsedMilliseconds - startTime;
+                if(elapsed != 0)
+                    Title = $"Frames: {1000 / elapsed}";
             }
         }
 
@@ -124,16 +113,16 @@ namespace WpfGameOfLife
 
         private void canvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            addCell(e);
+            AddCell(e);
         }
 
         private void canvas_MouseMove(object sender, MouseEventArgs e)
         {
             if(e.LeftButton == MouseButtonState.Pressed || e.RightButton == MouseButtonState.Pressed)
-                addCell(e);
+                AddCell(e);
         }
         
-        private void addCell(MouseEventArgs e)
+        private void AddCell(MouseEventArgs e)
         {
             if (IsStarted) //Cant add cell if "auto" is active
                 return;
@@ -160,20 +149,14 @@ namespace WpfGameOfLife
             lblCellsAlive.Content = CurrentGame.Cells.Count();
         }
 
-        //private void Form1_FormClosing(object sender, FormClosingEventArgs e)
-        //{
-        //    isStarted = false; //stop auto on closing
-        //}
-
-        private void canvasOutside_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void cnvOutside_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             UpdateImageComponent();
         }
 
         private void UpdateImageComponent()
         {
-            border.Width = border.Height = Math.Min(canvasOutside.ActualHeight, canvasOutside.ActualWidth);
-            //lblError.Text = foregroundBmp.Width < CurrentGame.FieldSize ? "Imagesize is too small." : string.Empty;
+            border.Width = border.Height = Math.Min(cnvOutside.ActualHeight, cnvOutside.ActualWidth);
             if(CurrentGame != null)
                 RenderCells();
         }
@@ -185,7 +168,7 @@ namespace WpfGameOfLife
 
         private void sldAutoSpeed_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            int minimumInterval = 500;
+            const int minimumInterval = 500;
             AutoInterval = minimumInterval - (sldAutoSpeed.Value * minimumInterval / 10);
         }
     }

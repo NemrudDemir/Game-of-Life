@@ -1,50 +1,46 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GameOfLifeModel
 {
     public class GridHelper
     {
         /// <summary>
-        /// Gets specific neighbour cell
+        /// Gets specific neighbor cell
         /// </summary>
-        /// <param name="neighbourCell"></param>
-        /// <param name="cell"></param>
+        /// <param name="neighborCell">neighborCell enum</param>
+        /// <param name="cell">actual cell</param>
         /// <param name="fieldSize"></param>
-        /// <returns></returns>
-        public static Point GetNeighbourCell(GridNeighbourCell neighbourCell, Cell cell, int fieldSize)
+        /// <returns>Gets specific neighbor cell</returns>
+        public static Point GetNeighborCellPoint(GridNeighborCell neighborCell, Cell cell, int fieldSize)
         {
-            int x = cell.X;
-            int y = cell.Y;
-            int s = fieldSize;
-            switch (neighbourCell) {
-                //The gamefield is defined as toroidal array aka periodic boundary
-                case GridNeighbourCell.TopLeft:
+            var x = cell.X;
+            var y = cell.Y;
+            var s = fieldSize;
+            switch (neighborCell) {
+                //The game field is defined as toroidal array aka periodic boundary
+                case GridNeighborCell.TopLeft:
                     return new Point((x + s - 1) % s, (y + s - 1) % s);
-                case GridNeighbourCell.TopMid:
+                case GridNeighborCell.TopMid:
                     return new Point(x, (y + s - 1) % s);
-                case GridNeighbourCell.TopRight:
+                case GridNeighborCell.TopRight:
                     return new Point((x+1)%s, (y + s - 1) % s);
-                case GridNeighbourCell.MidLeft:
+                case GridNeighborCell.MidLeft:
                     return new Point((x + s - 1) % s, y);
-                case GridNeighbourCell.MidRight:
+                case GridNeighborCell.MidRight:
                     return new Point((x+1)%s, y);
-                case GridNeighbourCell.BottomLeft:
+                case GridNeighborCell.BottomLeft:
                     return new Point((x + s - 1) % s, (y+1)%s);
-                case GridNeighbourCell.BottomMid:
+                case GridNeighborCell.BottomMid:
                     return new Point(x, (y+1)%s);
-                case GridNeighbourCell.BottomRight:
+                case GridNeighborCell.BottomRight:
                     return new Point((x+1)%s, (y+1)%s);
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(neighborCell), neighborCell, null);
             }
-            return new Point(-1, -1);
         }
     }
 
-    public enum GridNeighbourCell
+    public enum GridNeighborCell
     {
         TopLeft,
         TopMid,

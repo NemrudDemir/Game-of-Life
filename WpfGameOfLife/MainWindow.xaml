@@ -3,11 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WpfGameOfLife"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Canvas x:Name="canvasOutside" Margin="10,10,229,10" SizeChanged="canvasOutside_SizeChanged">
+        <Canvas x:Name="cnvOutside" Margin="10,10,229,10" SizeChanged="cnvOutside_SizeChanged">
             <Border x:Name="border" BorderBrush="Black" BorderThickness="1" Height="371" Width="371">
                 <Canvas x:Name="canvas" MouseDown="canvas_MouseDown" MouseMove="canvas_MouseMove" Margin="0,0,0,0" Background="White"/>
             </Border>
@@ -32,9 +31,9 @@
                         <Grid Margin="0,0,0,0">
                             <Button x:Name="cmdNewGame" Content="Apply and reset" Margin="5,0,0,5" Click="cmdNewGame_Click"  HorizontalAlignment="Left" Width="114" Height="23" VerticalAlignment="Bottom"/>
                             <Label Content="Rule:" Height="23" VerticalAlignment="Top" HorizontalAlignment="Left" Width="60" Margin="0,2,0,0"/>
-                            <Label Content="Fieldsize:" Margin="0,30,0,0" Height="23" VerticalAlignment="Top" HorizontalAlignment="Left" Width="60"/>
+                            <Label Content="Field size:" Margin="0,30,0,0" Height="23" VerticalAlignment="Top" HorizontalAlignment="Left" Width="60"/>
                             <TextBox x:Name="txtRule" TextWrapping="Wrap" Text="23/3" Margin="65,5,0,0" Height="23" VerticalAlignment="Top" HorizontalAlignment="Left" Width="54"/>
-                            <TextBox x:Name="txtFieldsize" TextWrapping="Wrap" Text="200" Margin="65,33,0,0" Height="23" VerticalAlignment="Top" HorizontalAlignment="Left" Width="54" />
+                            <TextBox x:Name="txtFieldSize" TextWrapping="Wrap" Text="200" Margin="65,33,0,0" Height="23" VerticalAlignment="Top" HorizontalAlignment="Left" Width="54" />
                         </Grid>
                     </GroupBox>
                 </Grid>
