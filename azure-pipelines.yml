@@ -21,8 +21,8 @@ steps:
     SonarCloud: 'SonarCloud'
     organization: 'nemruddemir'
     scannerMode: 'MSBuild'
-    projectKey: 'Game-of-Life'
-    projectName: 'Game-of-Life'
+    projectKey: 'GameOfLife'
+    projectName: 'GameOfLife'
 
 - task: NuGetToolInstaller@1
 
