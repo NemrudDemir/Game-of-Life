@@ -23,6 +23,11 @@ steps:
     scannerMode: 'MSBuild'
     projectKey: 'GameOfLife'
     projectName: 'GameOfLife'
+    extraProperties: |
+      # Additional properties that will be passed to the scanner, 
+      # Put one key=value per line, example:
+      # sonar.exclusions=**/*.bin
+      sonar.inclusions=**/src/**
 
 - task: NuGetToolInstaller@1
 
@@ -37,8 +42,11 @@ steps:
     configuration: '$(buildConfiguration)'
 
 - task: VSTest@2
+  displayName: 'VsTest - testAssemblies'
   inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    codeCoverageEnabled: true
+    platform: '$(BuildPlatform)'
+    configuration: '$(BuildConfiguration)'
+    diagnosticsEnabled: true
 
 - task: SonarCloudAnalyze@1
