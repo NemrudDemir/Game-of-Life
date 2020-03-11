@@ -19,13 +19,13 @@
             X = x;
             Y = y;
             FieldSize = fieldSize;
-            this.IsAlive = isAlive;
+            IsAlive = isAlive;
             NeighborsCount = neighborsCount;
         }
 
         public void UpdateAliveStatus(Rule rule)
         {
-            this.IsAlive = rule.WillCellBeAlive(IsAlive, NeighborsCount);
+            IsAlive = rule.WillCellBeAlive(IsAlive, NeighborsCount);
             NeighborsCount = 0;
         }
 

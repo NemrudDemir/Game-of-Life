@@ -10,10 +10,8 @@ namespace GameOfLifeModel
         public IEnumerable<Cell> Cells => _aliveCells.Values;
         public int Generation { get; private set; }
         private Rule Rule { get; }
-        public int FieldSize { get; }
-
-        public GameOfLife(int fieldSize, string rule) : this(fieldSize, rule.Split('/')) { }
-        public GameOfLife(int fieldSize, IReadOnlyList<string> rule) : this(fieldSize, new Rule(rule[0], rule[1])) { }
+        public int FieldSize { get; } //TODO make it 2 seperate dimensions
+        
         public GameOfLife(int fieldSize, string aliveRule, string deadRule) : this(fieldSize, new Rule(aliveRule, deadRule)) { }
 
         public GameOfLife(int fieldSize, Rule rule)

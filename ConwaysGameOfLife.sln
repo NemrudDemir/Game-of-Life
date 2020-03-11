@@ -1,16 +1,25 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27703.2026
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29728.190
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameOfLifeModel", "GameOfLifeModel\GameOfLifeModel.csproj", "{021E257D-E09A-4455-84E6-C61D6C0C6A85}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameOfLifeModel", "src\GameOfLifeModel\GameOfLifeModel.csproj", "{021E257D-E09A-4455-84E6-C61D6C0C6A85}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfGameOfLife", "WpfGameOfLife\WpfGameOfLife.csproj", "{5633AA41-4386-4BD3-9076-E452EED2208E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfGameOfLife", "demo\WpfGameOfLife\WpfGameOfLife.csproj", "{5633AA41-4386-4BD3-9076-E452EED2208E}"
 	ProjectSection(ProjectDependencies) = postProject
 		{021E257D-E09A-4455-84E6-C61D6C0C6A85} = {021E257D-E09A-4455-84E6-C61D6C0C6A85}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormGameOfLife", "FormGameOfLife\FormGameOfLife.csproj", "{3B2D2CA4-3B30-4452-8B65-173ED9437BD1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormGameOfLife", "demo\FormGameOfLife\FormGameOfLife.csproj", "{3B2D2CA4-3B30-4452-8B65-173ED9437BD1}"
+	ProjectSection(ProjectDependencies) = postProject
+		{021E257D-E09A-4455-84E6-C61D6C0C6A85} = {021E257D-E09A-4455-84E6-C61D6C0C6A85}
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "demos", "demos", "{91CD7200-EF70-4ACC-BCCC-48384401F945}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{3C9F436B-38BE-4994-A44B-BA9220D47203}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameOfLifeModel.Test", "test\GameOfLifeModel.Test\GameOfLifeModel.Test.csproj", "{65AE72C2-0A46-4C61-83BC-20425E87ABBA}"
 	ProjectSection(ProjectDependencies) = postProject
 		{021E257D-E09A-4455-84E6-C61D6C0C6A85} = {021E257D-E09A-4455-84E6-C61D6C0C6A85}
 	EndProjectSection
@@ -33,9 +42,18 @@ Global
 		{3B2D2CA4-3B30-4452-8B65-173ED9437BD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3B2D2CA4-3B30-4452-8B65-173ED9437BD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3B2D2CA4-3B30-4452-8B65-173ED9437BD1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65AE72C2-0A46-4C61-83BC-20425E87ABBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65AE72C2-0A46-4C61-83BC-20425E87ABBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65AE72C2-0A46-4C61-83BC-20425E87ABBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65AE72C2-0A46-4C61-83BC-20425E87ABBA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5633AA41-4386-4BD3-9076-E452EED2208E} = {91CD7200-EF70-4ACC-BCCC-48384401F945}
+		{3B2D2CA4-3B30-4452-8B65-173ED9437BD1} = {91CD7200-EF70-4ACC-BCCC-48384401F945}
+		{65AE72C2-0A46-4C61-83BC-20425E87ABBA} = {3C9F436B-38BE-4994-A44B-BA9220D47203}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B8056DE9-5AF6-4B3E-861D-DB8897D26944}

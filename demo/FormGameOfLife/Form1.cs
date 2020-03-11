@@ -9,6 +9,7 @@ namespace FormGameOfLife
 {
     public partial class Form1 : Form
     {
+        //TODO paint only (changed cells) if needed
         private Bitmap Bmp { get; set; }
         private Graphics Graphics { get; set; }
         private BackgroundWorker Worker { get; } = new BackgroundWorker(); //TODO change to async
@@ -55,8 +56,15 @@ namespace FormGameOfLife
 
         public void NewGame()
         {
+            var rules = txtRule.Text.Split('/');
+            if (rules.Length < 2)
+            {
+                MessageBox.Show("The entered rule is not valid. Example of valid rule: 23/3");
+                return;
+            }
+
             IsStarted = false;
-            CurrentGame = new GameOfLife((int)numFieldsize.Value, txtRule.Text);
+            CurrentGame = new GameOfLife((int)numFieldsize.Value, rules[0], rules[1]);
             UpdateImageComponent();
         }
 

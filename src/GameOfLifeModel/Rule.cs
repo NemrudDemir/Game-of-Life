@@ -19,7 +19,7 @@ namespace GameOfLifeModel
                 DeadRules[digit] = true;
         }
 
-        private static bool IsInvalidRule(string rule, ref string error)
+        private static bool IsInvalidRule(string rule, ref string error) //TODO 0 on deadrule is not supported!
         {
             if (rule.ToCharArray().All(x => x >= '0' && x <= '8'))
                 return false;

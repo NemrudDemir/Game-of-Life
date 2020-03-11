@@ -12,6 +12,8 @@ namespace WpfGameOfLife
 {
     public partial class MainWindow
     {
+        //TODO paint only (changed cells) if needed
+        //TODO change to mvvm
         private BackgroundWorker Worker { get; } = new BackgroundWorker(); //TODO change to async
 
         bool _isStarted;
@@ -63,8 +65,14 @@ namespace WpfGameOfLife
         
         public void NewGame()
         {
+            var rules = txtRule.Text.Split('/');
+            if (rules.Length < 2) {
+                MessageBox.Show("The entered rule is not valid. Example of valid rule: 23/3");
+                return;
+            }
+
             IsStarted = false;
-            CurrentGame = new GameOfLife(Convert.ToInt32(txtFieldSize.Text), txtRule.Text);
+            CurrentGame = new GameOfLife(Convert.ToInt32(txtFieldSize.Text), rules[0], rules[1]);
             UpdateImageComponent();
         }
         
