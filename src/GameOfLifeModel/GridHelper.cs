@@ -17,14 +17,17 @@ namespace GameOfLifeModel
             var y = cell.Y;
             var s = fieldSize;
             //The game field is defined as toroidal array aka periodic boundary
-            yield return new Point((x + s - 1) % s, (y + s - 1) % s); //TopLeft
-            yield return new Point(x, (y + s - 1) % s); //TopMid
-            yield return new Point((x + 1) % s, (y + s - 1) % s); //TopRight
-            yield return new Point((x + s - 1) % s, y); //MidLeft
-            yield return new Point((x + 1) % s, y); //MidRight
-            yield return new Point((x + s - 1) % s, (y + 1) % s); //BottomLeft
-            yield return new Point(x, (y + 1) % s); //BottomMid
-            yield return new Point((x + 1) % s, (y + 1) % s); //BottomRight
+            return new List<Point>
+            {
+                new Point((x + s - 1) % s, (y + s - 1) % s), //TopLeft
+                new Point(x, (y + s - 1) % s), //TopMid
+                new Point((x + 1) % s, (y + s - 1) % s), //TopRight
+                new Point((x + s - 1) % s, y), //MidLeft
+                new Point((x + 1) % s, y), //MidRight
+                new Point((x + s - 1) % s, (y + 1) % s), //BottomLeft
+                new Point(x, (y + 1) % s), //BottomMid
+                new Point((x + 1) % s, (y + 1) % s) //BottomRight
+            };
         }
     }
 }
