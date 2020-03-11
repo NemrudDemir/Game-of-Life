@@ -8,7 +8,7 @@ namespace GameOfLifeModel
     {
         Dictionary<int, Cell> _aliveCells = new Dictionary<int, Cell>();
         public IEnumerable<Cell> Cells => _aliveCells.Values;
-        public int Generation { get; private set; }
+        public int GenerationCount { get; private set; }
         private Rule Rule { get; }
         public int FieldSize { get; } //TODO make it 2 seperate dimensions
         
@@ -16,8 +16,8 @@ namespace GameOfLifeModel
 
         public GameOfLife(int fieldSize, Rule rule)
         {
-            this.FieldSize = fieldSize;
-            this.Rule = rule;
+            FieldSize = fieldSize;
+            Rule = rule;
         }
 
         public void AddCell(int x, int y)
@@ -25,7 +25,7 @@ namespace GameOfLifeModel
             var coordinateHash = GetCoordinateHash(x, y);
             if (_aliveCells.ContainsKey(coordinateHash))
                 return;
-            _aliveCells.Add(coordinateHash, new Cell(x, y, FieldSize, true));
+            _aliveCells.Add(coordinateHash, new Cell(x, y, true));
         }
 
         public void RemoveCell(int x, int y)
@@ -48,14 +48,13 @@ namespace GameOfLifeModel
 
         public void NextGeneration()
         {
-            Generation++;
+            GenerationCount++;
             var newRelevantCells = new Dictionary<int, Cell>(_aliveCells); //base of the new relevant cells are the current (alive) cells
             foreach (var aliveCell in _aliveCells.Values) {
-                foreach (var neighborCell in Enum.GetValues(typeof(GridNeighborCell))) { //TODO improve code
-                    var point = GridHelper.GetNeighborCellPoint((GridNeighborCell)neighborCell, aliveCell, FieldSize);
+                foreach (var point in aliveCell.GetNeighborCellPoints(FieldSize)) {
                     var coordinateHash = GetCoordinateHash(point);
                     if (!newRelevantCells.ContainsKey(coordinateHash))
-                        newRelevantCells.Add(coordinateHash, new Cell(point, FieldSize, false));
+                        newRelevantCells.Add(coordinateHash, new Cell(point, false));
                     newRelevantCells[coordinateHash].NeighborsCount++;
                 }
             }

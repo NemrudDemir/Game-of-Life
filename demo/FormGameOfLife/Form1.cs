@@ -141,7 +141,7 @@ namespace FormGameOfLife
 
         private void UpdateStatistic()
         {
-            lblGeneration.Text = CurrentGame.Generation.ToString();
+            lblGeneration.Text = CurrentGame.GenerationCount.ToString();
             lblAliveCells.Text = CurrentGame.Cells.Count().ToString();
         }
 

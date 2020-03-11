@@ -153,7 +153,7 @@ namespace WpfGameOfLife
 
         private void UpdateStatistic()
         {
-            lblGeneration.Content = CurrentGame.Generation;
+            lblGeneration.Content = CurrentGame.GenerationCount;
             lblCellsAlive.Content = CurrentGame.Cells.Count();
         }
 
