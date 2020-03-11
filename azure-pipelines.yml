@@ -23,6 +23,11 @@ steps:
     scannerMode: 'MSBuild'
     projectKey: 'GameOfLife'
     projectName: 'GameOfLife'
+    extraProperties: |
+      # Additional properties that will be passed to the scanner, 
+      # Put one key=value per line, example:
+      # sonar.exclusions=**/*.bin
+      sonar.inclusions=**/src/**
 
 - task: NuGetToolInstaller@1
 
