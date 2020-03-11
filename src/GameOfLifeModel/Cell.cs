@@ -10,7 +10,7 @@
 
         public int Y { get; }
 
-        public Cell(Point point, bool isAlive, int neighborsCount = 0) : this(point.X, point.Y, isAlive, neighborsCount) {}
+        public Cell(Point point, bool isAlive, int neighborsCount = 0) : this(point.X, point.Y, isAlive, neighborsCount) { }
 
         public Cell(int x, int y, bool isAlive, int neighborsCount = 0)
         {
@@ -20,9 +20,9 @@
             NeighborsCount = neighborsCount;
         }
 
-        public void UpdateAliveStatus(Rule rule)
+        public void UpdateAliveStatus(GameRule gameRule)
         {
-            IsAlive = rule.WillCellBeAlive(IsAlive, NeighborsCount);
+            IsAlive = gameRule.WillCellBeAlive(IsAlive, NeighborsCount);
             NeighborsCount = 0;
         }
     }

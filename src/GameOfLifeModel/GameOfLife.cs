@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using GameOfLifeModel.Helpers;
 
 namespace GameOfLifeModel
 {
@@ -9,12 +9,12 @@ namespace GameOfLifeModel
         Dictionary<int, Cell> _aliveCells = new Dictionary<int, Cell>();
         public IEnumerable<Cell> Cells => _aliveCells.Values;
         public int GenerationCount { get; private set; }
-        private Rule Rule { get; }
+        private GameRule Rule { get; }
         public int FieldSize { get; } //TODO make it 2 seperate dimensions
-        
-        public GameOfLife(int fieldSize, string aliveRule, string deadRule) : this(fieldSize, new Rule(aliveRule, deadRule)) { }
 
-        public GameOfLife(int fieldSize, Rule rule)
+        public GameOfLife(int fieldSize, string aliveRule, string deadRule) : this(fieldSize, new GameRule(aliveRule, deadRule)) { }
+
+        public GameOfLife(int fieldSize, GameRule rule)
         {
             FieldSize = fieldSize;
             Rule = rule;
@@ -50,8 +50,10 @@ namespace GameOfLifeModel
         {
             GenerationCount++;
             var newRelevantCells = new Dictionary<int, Cell>(_aliveCells); //base of the new relevant cells are the current (alive) cells
-            foreach (var aliveCell in _aliveCells.Values) {
-                foreach (var point in aliveCell.GetNeighborCellPoints(FieldSize)) {
+            foreach (var aliveCell in _aliveCells.Values)
+            {
+                foreach (var point in aliveCell.GetNeighborCellPoints(FieldSize))
+                {
                     var coordinateHash = GetCoordinateHash(point);
                     if (!newRelevantCells.ContainsKey(coordinateHash))
                         newRelevantCells.Add(coordinateHash, new Cell(point, false));
@@ -59,7 +61,8 @@ namespace GameOfLifeModel
                 }
             }
 
-            foreach (var relevantCell in newRelevantCells.Values) {
+            foreach (var relevantCell in newRelevantCells.Values)
+            {
                 relevantCell.UpdateAliveStatus(Rule);
             }
             _aliveCells = newRelevantCells.Where(x => x.Value.IsAlive).ToDictionary(x => x.Key, x => x.Value);

@@ -3,15 +3,15 @@ using System.Linq;
 
 namespace GameOfLifeModel
 {
-    public class Rule
+    public class GameRule
     {
         private bool[] AliveRules { get; } = new bool[9];
         private bool[] DeadRules { get; } = new bool[9];
 
-        public Rule(string aliveRule, string deadRule) //We have to handle it as string because '0' can be at the first position of the rules followed by other digits
+        public GameRule(string aliveRule, string deadRule) //We have to handle it as string because '0' can be at the first position of the rules followed by other digits
         {
             var error = string.Empty;
-            if(IsInvalidRule(aliveRule, ref error) || IsInvalidRule(deadRule, ref error))
+            if (IsInvalidRule(aliveRule, ref error) || IsInvalidRule(deadRule, ref error))
                 throw new Exception(error);
             foreach (var digit in aliveRule.ToCharArray().Select(x => x - '0'))
                 AliveRules[digit] = true;

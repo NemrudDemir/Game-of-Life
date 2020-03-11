@@ -57,7 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\GameOfLifeModel\GameOfLifeModel.csproj">
-      <Project>{021E257D-E09A-4455-84E6-C61D6C0C6A85}</Project>
+      <Project>{D53798DB-FA57-4E81-8EFE-4784C62AB006}</Project>
       <Name>GameOfLifeModel</Name>
     </ProjectReference>
   </ItemGroup>
