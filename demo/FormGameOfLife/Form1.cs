@@ -1,8 +1,9 @@
 ﻿using GameOfLifeModel;
 using System;
-using System.ComponentModel;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace FormGameOfLife
@@ -10,10 +11,6 @@ namespace FormGameOfLife
     public partial class Form1 : Form
     {
         //TODO paint only (changed cells) if needed
-        private Bitmap Bmp { get; set; }
-        private Graphics Graphics { get; set; }
-        private BackgroundWorker Worker { get; } = new BackgroundWorker(); //TODO change to async
-
         private bool _isStarted;
         private bool IsStarted {
             get => _isStarted;
@@ -24,7 +21,6 @@ namespace FormGameOfLife
                 cmdStop.Enabled = _isStarted;
                 if (_isStarted) {
                     cmdStop.Focus();
-                    Worker.RunWorkerAsync();
                 } else
                     cmdStart.Focus();
             }
@@ -35,18 +31,7 @@ namespace FormGameOfLife
         public Form1()
         {
             InitializeComponent();
-            Worker.DoWork += Worker_DoWork;
-        }
-
-        private void Worker_DoWork(object sender, DoWorkEventArgs e)
-        {
-            var timer = new HiResTimer();
-            timer.Start();
-            while (IsStarted) {
-                var startTime = timer.ElapsedMilliseconds;
-                NextGeneration();
-                while (timer.ElapsedMilliseconds - startTime < AutoInterval) { }
-            }
+            NewGame();
         }
 
         private void cmdNewGame_Click(object sender, EventArgs e)
@@ -66,41 +51,35 @@ namespace FormGameOfLife
             IsStarted = false;
             CurrentGame = new GameOfLife((int)numFieldsize.Value, rules[0], rules[1]);
             UpdateImageComponent();
+            UpdateUi();
         }
 
-        private void cmdStart_Click(object sender, EventArgs e)
+        private async void cmdStart_Click(object sender, EventArgs e)
         {
             IsStarted = true;
+            var timer = new HiResTimer();
+            timer.Start();
+            while (IsStarted)
+            {
+                var startTime = timer.ElapsedMilliseconds;
+                NextGeneration();
+                var timeToSleep = AutoInterval - (int)(timer.ElapsedMilliseconds - startTime);
+                if (timeToSleep < 0)
+                    timeToSleep = 0;
+                await Task.Delay(timeToSleep);
+            }
+        }
+
+        private void UpdateUi()
+        {
+            imgGame.Invalidate();
+            UpdateStatistic();
+            Application.DoEvents();
         }
 
         private void cmdStop_Click(object sender, EventArgs e)
         {
             IsStarted = false;
-        }
-
-        public void GameLoop()
-        {
-            var frameTimer = new HiResTimer();
-            frameTimer.Start();
-            while (Created) {
-                var startTime = frameTimer.ElapsedMilliseconds;
-                RenderCells();
-                UpdateStatistic();
-                Application.DoEvents();
-                var elapsed = frameTimer.ElapsedMilliseconds - startTime;
-                if(elapsed != 0)
-                    Text = $"Frames: {1000 / elapsed}";
-            }
-        }
-
-        private void RenderCells()
-        {
-            imgGame.Image = new Bitmap(Bmp);
-            Graphics.FillRectangle(Brushes.White, 0, 0, Bmp.Width, Bmp.Height);
-            var ratio = (float)Bmp.Width / CurrentGame.FieldSize;
-            foreach (var aliveCell in CurrentGame.Cells)
-                Graphics.FillRectangle(Brushes.Black, aliveCell.X * ratio, aliveCell.Y * ratio, ratio, ratio);
-            imgGame.Image = Bmp;
         }
 
         private void imgGame_MouseDown(object sender, MouseEventArgs e)
@@ -119,7 +98,7 @@ namespace FormGameOfLife
         {
             if (IsStarted) //Cant add cell if "auto" is active
                 return;
-            var boxRatio = (double)Bmp.Width / CurrentGame.FieldSize;
+            var boxRatio = (double)imgGame.Width / CurrentGame.FieldSize;
             var fieldX = (int)(e.X / boxRatio);
             var fieldY = (int)(e.Y / boxRatio);
             if (e.Button == MouseButtons.Left) {
@@ -127,6 +106,8 @@ namespace FormGameOfLife
             } else if (e.Button == MouseButtons.Right) {
                 CurrentGame.RemoveCell(fieldX, fieldY);
             }
+
+            UpdateUi();
         }
 
         private void cmdNext_Click(object sender, EventArgs e)
@@ -137,6 +118,7 @@ namespace FormGameOfLife
         public void NextGeneration()
         {
             CurrentGame.NextGeneration();
+            UpdateUi();
         }
 
         private void UpdateStatistic()
@@ -152,22 +134,33 @@ namespace FormGameOfLife
 
         private void UpdateImageComponent()
         {
-            imgGame.Width = imgGame.Height = Math.Min(panel.Width, panel.Height);
-            if (Math.Min(panel.Width, panel.Height) < 5)
+            if (CurrentGame == null || Math.Min(panel.Width, panel.Height) < 5)
                 return;
-            Bmp = new Bitmap(imgGame.Width - 2, imgGame.Height - 2); //subtract 2 for each border-line on the edges
-            Graphics = Graphics.FromImage(Bmp);
-            Graphics.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.Half;
-            Graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+            imgGame.Width = imgGame.Height = Math.Min(panel.Width, panel.Height);
 
-            lblWarning.Text = Bmp.Width < CurrentGame.FieldSize ? "Image size is too small." : string.Empty;
-            RenderCells();
+            lblWarning.Text = imgGame.Width < CurrentGame.FieldSize ? "Image size is too small." : string.Empty;
         }
 
         private void trcAutoSpeed_ValueChanged(object sender, EventArgs e)
         {
             const int minimumInterval = 500;
             AutoInterval = minimumInterval - (trcAutoSpeed.Value * minimumInterval / 10);
+        }
+
+        private void imgGame_Paint(object sender, PaintEventArgs e)
+        {
+            if (!(sender is Control control))
+                return;
+            e.Graphics.InterpolationMode = InterpolationMode.NearestNeighbor;
+            e.Graphics.FillRectangle(Brushes.White, 0, 0, control.Width, control.Height);
+            var ratio = (float)control.Width / CurrentGame.FieldSize;
+            foreach (var aliveCell in CurrentGame.Cells)
+                e.Graphics.FillRectangle(Brushes.Black, aliveCell.X * ratio, aliveCell.Y * ratio, ratio, ratio);
+        }
+
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            cmdStop.PerformClick(); //Stop game loop
         }
     }
 

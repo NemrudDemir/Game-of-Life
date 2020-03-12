@@ -13,12 +13,7 @@ namespace FormGameOfLife
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new Form1());
-            using (var form = new Form1()) {
-                form.Show();
-                form.NewGame();
-                form.GameLoop();
-            }
+            Application.Run(new Form1());
         }
     }
 }

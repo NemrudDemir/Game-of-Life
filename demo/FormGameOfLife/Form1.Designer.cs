@@ -38,16 +38,16 @@
             this.txtRule = new System.Windows.Forms.TextBox();
             this.numFieldsize = new System.Windows.Forms.NumericUpDown();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.lblGeneration = new System.Windows.Forms.Label();
+            this.lblAliveCells = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.trcAutoSpeed = new System.Windows.Forms.TrackBar();
             this.cmdStop = new System.Windows.Forms.Button();
             this.cmdNext = new System.Windows.Forms.Button();
             this.cmdStart = new System.Windows.Forms.Button();
             this.panel = new System.Windows.Forms.Panel();
-            this.imgGame = new System.Windows.Forms.PictureBox();
             this.lblWarning = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.lblGeneration = new System.Windows.Forms.Label();
-            this.lblAliveCells = new System.Windows.Forms.Label();
+            this.imgGame = new System.Windows.Forms.PictureBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -192,6 +192,33 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Game";
             // 
+            // lblGeneration
+            // 
+            this.lblGeneration.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblGeneration.Location = new System.Drawing.Point(77, 234);
+            this.lblGeneration.Name = "lblGeneration";
+            this.lblGeneration.Size = new System.Drawing.Size(103, 18);
+            this.lblGeneration.TabIndex = 17;
+            this.lblGeneration.Text = "0";
+            // 
+            // lblAliveCells
+            // 
+            this.lblAliveCells.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblAliveCells.Location = new System.Drawing.Point(77, 216);
+            this.lblAliveCells.Name = "lblAliveCells";
+            this.lblAliveCells.Size = new System.Drawing.Size(103, 18);
+            this.lblAliveCells.TabIndex = 18;
+            this.lblAliveCells.Text = "0";
+            // 
+            // label2
+            // 
+            this.label2.Location = new System.Drawing.Point(6, 50);
+            this.label2.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(66, 18);
+            this.label2.TabIndex = 16;
+            this.label2.Text = "Auto-Speed:";
+            // 
             // trcAutoSpeed
             // 
             this.trcAutoSpeed.AutoSize = false;
@@ -247,18 +274,6 @@
             this.panel.TabIndex = 7;
             this.panel.SizeChanged += new System.EventHandler(this.panel_SizeChanged);
             // 
-            // imgGame
-            // 
-            this.imgGame.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.imgGame.Cursor = System.Windows.Forms.Cursors.Cross;
-            this.imgGame.Location = new System.Drawing.Point(0, 0);
-            this.imgGame.Name = "imgGame";
-            this.imgGame.Size = new System.Drawing.Size(400, 400);
-            this.imgGame.TabIndex = 2;
-            this.imgGame.TabStop = false;
-            this.imgGame.MouseDown += new System.Windows.Forms.MouseEventHandler(this.imgGame_MouseDown);
-            this.imgGame.MouseMove += new System.Windows.Forms.MouseEventHandler(this.imgGame_MouseMove);
-            // 
             // lblWarning
             // 
             this.lblWarning.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -270,32 +285,19 @@
             this.lblWarning.Size = new System.Drawing.Size(0, 13);
             this.lblWarning.TabIndex = 16;
             // 
-            // label2
+            // imgGame
             // 
-            this.label2.Location = new System.Drawing.Point(6, 50);
-            this.label2.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(66, 18);
-            this.label2.TabIndex = 16;
-            this.label2.Text = "Auto-Speed:";
-            // 
-            // lblGeneration
-            // 
-            this.lblGeneration.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblGeneration.Location = new System.Drawing.Point(77, 234);
-            this.lblGeneration.Name = "lblGeneration";
-            this.lblGeneration.Size = new System.Drawing.Size(103, 18);
-            this.lblGeneration.TabIndex = 17;
-            this.lblGeneration.Text = "0";
-            // 
-            // lblAliveCells
-            // 
-            this.lblAliveCells.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblAliveCells.Location = new System.Drawing.Point(77, 216);
-            this.lblAliveCells.Name = "lblAliveCells";
-            this.lblAliveCells.Size = new System.Drawing.Size(103, 18);
-            this.lblAliveCells.TabIndex = 18;
-            this.lblAliveCells.Text = "0";
+            this.imgGame.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.imgGame.Cursor = System.Windows.Forms.Cursors.Cross;
+            this.imgGame.Location = new System.Drawing.Point(0, 0);
+            this.imgGame.Name = "imgGame";
+            this.imgGame.Size = new System.Drawing.Size(400, 400);
+            this.imgGame.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.imgGame.TabIndex = 2;
+            this.imgGame.TabStop = false;
+            this.imgGame.Paint += new System.Windows.Forms.PaintEventHandler(this.imgGame_Paint);
+            this.imgGame.MouseDown += new System.Windows.Forms.MouseEventHandler(this.imgGame_MouseDown);
+            this.imgGame.MouseMove += new System.Windows.Forms.MouseEventHandler(this.imgGame_MouseMove);
             // 
             // Form1
             // 
@@ -306,6 +308,7 @@
             this.Controls.Add(this.panel);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
