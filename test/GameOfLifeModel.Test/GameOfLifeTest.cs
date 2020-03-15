@@ -120,5 +120,16 @@ namespace GameOfLifeModel.Test
             }
             Assert.AreEqual(0, gameOfLife.Cells.Count());
         }
+
+        [TestMethod]
+        public void GetRuleString_ShouldBeSameAsInput()
+        {
+            var aliveRule = "23";
+            var deadRule = "3";
+            var rule = new GameRule(aliveRule, deadRule);
+
+            Assert.AreEqual(aliveRule, rule.AliveRulesString);
+            Assert.AreEqual(deadRule, rule.DeadRulesString);
+        }
     }
 }

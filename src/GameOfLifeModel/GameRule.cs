@@ -1,10 +1,14 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace GameOfLifeModel
 {
     public class GameRule
     {
+        public string AliveRulesString => GetRuleStringFromList(AliveRules);
+        public string DeadRulesString => GetRuleStringFromList(DeadRules);
         private bool[] AliveRules { get; } = new bool[9];
         private bool[] DeadRules { get; } = new bool[9];
 
@@ -30,6 +34,15 @@ namespace GameOfLifeModel
         public bool WillCellBeAlive(bool isAlive, int neighbors)
         {
             return isAlive ? AliveRules[neighbors] : DeadRules[neighbors];
+        }
+
+        private string GetRuleStringFromList(IReadOnlyList<bool> ruleArray)
+        {
+            var result = string.Empty;
+            for(int i = 0; i<ruleArray.Count; i++)
+                if (ruleArray[i])
+                    result += i;
+            return result;
         }
     }
 }

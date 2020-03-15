@@ -41,15 +41,8 @@ namespace FormGameOfLife
 
         public void NewGame()
         {
-            var rules = txtRule.Text.Split('/');
-            if (rules.Length < 2)
-            {
-                MessageBox.Show("The entered rule is not valid. Example of valid rule: 23/3");
-                return;
-            }
-
             IsStarted = false;
-            CurrentGame = new GameOfLife((int)numFieldsize.Value, rules[0], rules[1]);
+            CurrentGame = new GameOfLife((int)numFieldsize.Value, txtAliveRule.Text, txtDeadRule.Text);
             UpdateImageComponent();
             UpdateUi();
         }
